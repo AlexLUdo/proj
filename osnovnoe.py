@@ -21,10 +21,10 @@ while True:
         biblioteka.get_system_info()
     elif otvet == '8': 
         print(f"Автор Alex Udo")
-        print(f"25.10.2019")
+        print(f"30.10.2019")
         print()
     elif otvet == '9':  
-        answer = input('Скоко хотите вопросов в викторине: -> ')
+        answer = input('Скоко-скоко хотите вопросов в викторине?: -> ')
         if answer.isdigit():
             count_questions = int(answer)
             if (count_questions >= 10) | (count_questions < 2):
