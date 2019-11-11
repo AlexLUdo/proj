@@ -36,6 +36,8 @@ while True:
         igra_schet.moj_schet()
     elif otvet == '11':  
         biblioteka.change_current_dir()
+    elif otvet == '12':  
+        biblioteka.save_current_dir()
     elif otvet == '0':  
         print('Все, пока!')
         break
