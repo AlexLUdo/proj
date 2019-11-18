@@ -19,6 +19,7 @@ def show_help():
     print(' 9 - Поиграем ?')
     print(' 10 - Скоко денег у мене ?')
     print(' 11 - Пойдем в другую папку ?')
+    print(' 12 - Сохраним содержимое папки в файл?')
     print(' 0 - Хватит, пошли... ???')
     print('######################@@@###########################')
 
@@ -133,4 +134,17 @@ def change_current_dir():
         print(f'ОШИБКА: {e.strerror}')
         os.chdir(dir)
         print(f"Мы на месте: {os.getcwd()}")
+
+def save_current_dir():
+    content = os.listdir()
+    files = filter(lambda x: os.path.isfile(x), content)
+    dirs = filter(lambda x: os.path.isdir(x), content)
+    with open('listdir.txt', 'w') as f:
+        f.write('files: ')
+        for file in files:
+            f.write(f'{file}, ')
+        f.write('\n')
+        f.write('dirs: ')
+        for dir in dirs:
+            f.write(f'{dir}, ')
 

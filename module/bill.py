@@ -1,54 +1,115 @@
-
-def osnovnoe_menu():
-    print('1. пополнение счета')
-    print('2. покупка')
-    print('3. история покупок')
-    print('4. выход')
-
+# my bill
 def moj_schet():
-    current_del = "\n"
-    account = float("0.0")
-    pay_history = []
-    while True:
-        osnovnoe_menu()
+    import os
+    import json
 
-        choice = input('Выберите пункт меню: ')
+    FILE_NAME = 'account.json'
+
+    if os.path.exists(FILE_NAME):
+        with open(FILE_NAME, 'r') as f:
+            account = json.load(f)
+    else:
+        account = {'acc_balance': 0, 'shop_list': []}
+
+    # main menu
+    while True:
+        print('1. пополнение счета')
+        print('2. покупка')
+        print('3. история покупок')
+        print('4. выход')
+
+        choice = input('Выберите пункт меню :) ')
         if choice == '1':
-            user_sum = input('Укажите сумму пополнения счета, разделитель - точка: ')
-            try:
-                if float(user_sum) <= 0:      # float
-                    raise Exception("Введено не правильное значение")
-                account += float(user_sum)
-            except:
-                print("Указана не правильная сумма пополнения счета")
-            print(f"Текущее состояние счета: {account}")
+            account['acc_balance'] += acc_repl()
+            print('Остаток счета {0:8.2f} $'.format(account['acc_balance']))
         elif choice == '2':
-            pay_sum = input('Укажите сумму покупки, разделитель - точка: ')
-            try:
-                if float(pay_sum) <= 0:
-                    raise Exception("Введено не корректное значение")
-                pay_sum = float(pay_sum)
-            except:
-                print("Указана не правильная сумма предполагаемой покупки")
-                continue
-            if account < pay_sum:
-                print(f"Нет денег для покупки. На счете: {account}")
-            else:
-                pay_name = input('Название покупки: ')
-                account -= pay_sum
-                while not pay_name.isalpha():
-                    pay_name = input('Название  покупки: ')
-                pay_history.append(f"Товар: {pay_name}; Стоимость: {pay_sum}")
-                print(f"Текущее состояние счета: {account}")
+            account = shop_action(account)
         elif choice == '3':
-            if len(pay_history) == 0:
-                print("Покупок нет")
-            else:
-                print("История покупок: ")
-                print(current_del.join(pay_history))
+            shop_history(account['shop_list'])
         elif choice == '4':
+            with open('account.json', 'w') as f:
+                json.dump(account, f)
+            print('Thanks за покупки! Ждем вас снова!')
             break
         else:
-            print('Нет такого пункта меню')
+            print('Неверный пункт меню')
 
-    print('Приходите ещё!)')
+
+def acc_repl():  # add money
+    return(float(input('Введите сумму пополнения счета:')))
+
+def shop_history(shop_list):  # buy history
+    if len(shop_list) == 0:
+        print('Покупок еще нет!')
+    else:
+        print('История покупок:')
+        for item in shop_list:
+            print(item[0], item[1], '$')
+    return(shop_list)
+
+
+def shop_action(acc):  # make buy
+    sum = float(input('Введите сумму покупки:'))
+    if sum > acc['acc_balance']:
+        print('Денег на счете не хватает!')
+    else:
+        name = input('Введите название покупки:')
+        acc['acc_balance'] -= sum
+        acc['shop_list'].append([name, sum])
+    return acc
+
+
+    FILE_NAME = 'account.json'
+
+    if os.path.exists(FILE_NAME):
+        with open(FILE_NAME, 'r') as f:
+            account = json.load(f)
+    else:
+        account = {'acc_balance': 0, 'shop_list': []}
+
+    # цикл основного меню
+    while True:
+        print('1. пополнение счета')
+        print('2. покупка')
+        print('3. история покупок')
+        print('4. выход')
+
+        choice = input('Выберите пункт меню :) ')
+        if choice == '1':
+            account['acc_balance'] += acc_repl()
+            print('Остаток счета {0:8.2f} $'.format(account['acc_balance']))
+        elif choice == '2':
+            account = shop_action(account)
+        elif choice == '3':
+            shop_history(account['shop_list'])
+        elif choice == '4':
+            with open('account.json', 'w') as f:
+                json.dump(account, f)
+            print('Спасибо за покупки! Ждем вас снова!')
+            break
+        else:
+            print('Неверный пункт меню')
+
+
+def acc_repl():  # add money
+    return(float(input('Введите сумму пополнения:')))
+
+def shop_history(shop_list):  # print history of purchases
+    if len(shop_list) == 0:
+        print('Покупок еще нет :(')
+    else:
+        print('История покупок:')
+        for item in shop_list:
+            print(item[0], item[1], '$.')
+    return(shop_list)
+
+
+def shop_action(acc):  # make purchase
+    sum = float(input('Введите сумму покупки $:'))
+    if sum > acc['acc_balance']:
+        print('$ на счете не хватает! :(')
+    else:
+        name = input('Введите название покупки:')
+        acc['acc_balance'] -= sum
+        acc['shop_list'].append([name, sum])
+    return acc

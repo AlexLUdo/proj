@@ -1,0 +1,2 @@
+files: .gitignore, account.json, alex_functions.py, biblioteka.py, bill1.py, filemanager.py, file_manager.py, functions.py, main.py, main_men .py, osnovnoe.py, test_new_fun.py, 
+dirs: .git, .idea, module, venv, __pycache__, 
