@@ -49,13 +49,18 @@ def shop_history(shop_list):  # buy history
 
 
 def shop_action(acc):  # make buy
-    sum = float(input('Введите сумму покупки:'))
-    if sum > acc['acc_balance']:
+    suma  = input('Введите сумму покупки:')
+    try:
+        suma = int(suma)
+    except ValueError:
+        print("Сумма покупки - это число")
+        return acc
+    if suma > acc['acc_balance']:
         print('Денег на счете не хватает!')
     else:
         name = input('Введите название покупки:')
-        acc['acc_balance'] -= sum
-        acc['shop_list'].append([name, sum])
+        acc['acc_balance'] -= suma
+        acc['shop_list'].append([name, suma])
     return acc
 
 
@@ -105,11 +110,11 @@ def shop_history(shop_list):  # print history of purchases
 
 
 def shop_action(acc):  # make purchase
-    sum = float(input('Введите сумму покупки $:'))
-    if sum > acc['acc_balance']:
+    suma = float(input('Введите сумму покупки $:'))
+    if suma > acc['acc_balance']:
         print('$ на счете не хватает! :(')
     else:
         name = input('Введите название покупки:')
-        acc['acc_balance'] -= sum
-        acc['shop_list'].append([name, sum])
+        acc['acc_balance'] -= suma
+        acc['shop_list'].append([name, suma])
     return acc
